@@ -1,0 +1,1 @@
+# If have resource configurations, define them here.

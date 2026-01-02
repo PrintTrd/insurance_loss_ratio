@@ -1,0 +1,32 @@
+# Secrets & Config
+.env
+env/
+profiles.yml
+secrets.json
+.user.yml
+set_env.ps1
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+dist/
+build/
+
+# DBT artifacts
+dbt_packages/
+target/
+logs/
+
+# Dagster
+*.db
+tmp/
+dagster_home/
+.tmp_dagster_home*/
+
+# OS & IDE files
+.DS_Store
+.vscode/
+.idea/

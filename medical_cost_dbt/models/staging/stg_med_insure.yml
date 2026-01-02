@@ -1,0 +1,128 @@
+
+version: 2
+
+models:
+  - name: stg_medical_insurance
+    description: "Medical cost and insurance data staging model"
+    columns:
+      - name: person_id
+        description: "Unique identifier for each individual"
+        data_tests:
+          - unique
+          - not_null
+      - name: patient_age
+        description: "Age of the individual"
+        data_tests:
+          - not_null
+      - name: sex
+        description: "Gender (Male/Female)"
+        data_tests:
+          - not_null
+      - name: region
+        description: "Geographic region"
+      - name: urban_rural
+        description: "The person lives in an urban or rural area"
+      - name: income
+        description: "Annual income (USD)"
+        data_tests:
+          - not_null
+      - name: education
+        description: "Education attainment"
+      - name: marital_status
+        description: "Marital status"
+      - name: employment_status
+        description: "Employment type/status"
+      - name: household_size
+        description: "Number of people in the household"
+      - name: num_dependents
+        description: "Number of financial dependents"
+      - name: bmi
+        description: "Body Mass Index value"
+      - name: smoking_status
+        description: "Smoking status"
+      - name: alcohol_freq
+        description: "Frequency of alcohol consumption"
+      - name: doctor_visits_last_year
+        description: "Number of healthcare provider visits in the last year"
+      - name: hospitalizations_last_3yrs
+        description: "Number of hospitalizations in the past three years"
+      - name: days_hospitalized_last_3yrs
+        description: "Total days spent in hospital over the past three years"
+      - name: medication_count
+        description: "Number of active medications prescribed"
+      - name: systolic_bp
+        description: "Systolic blood pressure (mmHg)"
+      - name: diastolic_bp
+        description: "Diastolic blood pressure (mmHg)"
+      - name: ldl
+        description: "Low-Density-Lipoprotein(LDL) cholesterol level (mg/dL)"
+      - name: hba1c
+        description: "Hemoglobin A1c percentage (Indicator of blood sugar control)"
+      - name: insure_plan_type
+        description: "Type of insurance plan"
+        data_tests:
+          - not_null
+      - name: insure_network_tier
+        description: "Insurance network tier"
+      - name: deductible_amount
+        description: "Annual deductible amount in USD"
+      - name: copay
+        description: "Copayment percentage per healthcare service"
+      - name: policy_term_years
+        description: "Length of the insurance policy in years"
+        data_tests:
+          - not_null
+      - name: policy_changes_last_2yrs
+        description: "Number of times the policy was modified the past two years"
+      - name: quality_rating
+        description: "Quality rating of the primary care provider/insurer"
+      - name: risk_score
+        description: "Calculated health risk score"
+      - name: annual_medical_cost
+        description: "Total annual medical cost in USD"
+      - name: annual_premium
+        description: "Annual insurance premium in USD"
+      - name: monthly_premium
+        description: "Monthly insurance premium in USD"
+      - name: claims_count
+        description: "Number of insurance claims field in a year"
+      - name: avg_claim_amount
+        description: "Average amount per claims in USD"
+      - name: total_claims_paid
+        description: "Total value of claims paid in USD"
+      - name: chronic_count
+        description: "Number of chronic conditions dianosed"
+      - name: is_hypertension
+        description: "Indicator for hypertension diagnosis (0 = No, 1 = Yes)"
+      - name: is_diabetes
+        description: "Indicator for diabetes diagnosis (0 = No, 1 = Yes)"
+      - name: is_asthma
+        description: "Indicator for asthma diagnosis (0 = No, 1 = Yes)"
+      - name: is_copd
+        description: "Indicator for Chronic Obstructive Pulmonary Dicease (0 = No, 1 = Yes)"
+      - name: is_cardiovascular_disease
+        description: "Presence of cardiovascular disease (0 = No, 1 = Yes)"
+      - name: is_cancer_history
+        description: "History of cancer diagnosis (0 = No, 1 = Yes)"
+      - name: is_kidney_disease
+        description: "Indicator for chronic kidney disease (0 = No, 1 = Yes)"
+      - name: is_liver_disease
+        description: "Indicator for liver disease (0 = No, 1 = Yes)"
+      - name: is_arthritis
+        description: "Indicator for arthritis diagnosis (0 = No, 1 = Yes)"
+      - name: is_mental_issue
+        description: "Presence of a diagnosed mental health condition (0 = No, 1 = Yes)"
+      - name: proc_imaging_count
+        description: "Number of imaging procedures (e.g., X-ray, MRI, CT scans) performed in year"
+      - name: proc_surgery_count
+        description: "Number of surgical procedures undergone"
+      - name: proc_physio_count
+        description: "Number of psychiatric/psychological procedures or sessions"
+      - name: specialist_consult_count
+        description: "Number of specialist consultations (e.g., cardiologist, oncologist)"
+      - name: lab_test_count
+        description: "Number of laboratory diagnostic tests taken"
+      - name: is_high_risk
+        description: "Binary indicator if the individual is classified as high health risk (0 = No, 1 = Yes)"
+      - name: had_major_procedure
+        description: "Indicator if the person had a major medical procedure event (e.g., surgery, hospitalization) in the last year (0 = No, 1 = Yes)"
