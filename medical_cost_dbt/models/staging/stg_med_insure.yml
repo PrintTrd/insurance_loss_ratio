@@ -5,7 +5,7 @@ models:
   - name: stg_medical_insurance
     description: "Medical cost and insurance data staging model"
     columns:
-      - name: person_id
+      - name: patient_id
         description: "Unique identifier for each individual"
         data_tests:
           - unique
@@ -89,7 +89,7 @@ models:
       - name: avg_claim_amount
         description: "Average amount per claims in USD"
       - name: total_claims_paid
-        description: "Total value of claims paid in USD"
+        description: "Total value of annual claims paid in USD"
       - name: chronic_count
         description: "Number of chronic conditions dianosed"
       - name: is_hypertension
@@ -114,9 +114,9 @@ models:
         description: "Presence of a diagnosed mental health condition (0 = No, 1 = Yes)"
       - name: proc_imaging_count
         description: "Number of imaging procedures (e.g., X-ray, MRI, CT scans) performed in year"
-      - name: proc_surgery_count
+      - name: surgery_count
         description: "Number of surgical procedures undergone"
-      - name: proc_physio_count
+      - name: physiotherapy_count
         description: "Number of psychiatric/psychological procedures or sessions"
       - name: specialist_consult_count
         description: "Number of specialist consultations (e.g., cardiologist, oncologist)"

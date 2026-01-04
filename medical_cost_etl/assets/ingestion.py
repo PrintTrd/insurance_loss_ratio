@@ -1,18 +1,21 @@
-import pandas as pd
 import os
+import pandas as pd
 from dagster import asset, TableSchema, TableColumn
-from sqlalchemy import create_engine, text
+from sqlalchemy import create_engine, text, inspect
 from dotenv import load_dotenv
 
 load_dotenv()
 
-# DB connection setting 
+# DB connection setting
 DB_USER = os.getenv("DB_USER")
 DB_PASSWORD = os.getenv("DB_PASSWORD")
 DB_NAME = os.getenv("DB_NAME")
 DB_HOST = os.getenv("DB_HOST", "localhost")
 DB_PORT = os.getenv("DB_PORT")
-DB_CONNECTION_STRING = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+DB_CONNECTION_STRING = (
+    f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+)
+
 
 @asset(
     key_prefix=["raw"],
@@ -74,31 +77,42 @@ DB_CONNECTION_STRING = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT
                 TableColumn(name="proc_consult_count", type="bigint"),
                 TableColumn(name="proc_lab_count", type="bigint"),
                 TableColumn(name="is_high_risk", type="bigint"),
-                TableColumn(name="had_major_procedure", type="bigint")
+                TableColumn(name="had_major_procedure", type="bigint"),
             ]
         )
-    }
+    },
 )
 def raw_medical_insurance(context):
     """
     read CSV file and ingest into PostgreSQL (raw_medical_insurance table)
     """
-    csv_path = "data/medical_insurance.csv"
+    current_script_path = os.path.dirname(os.path.abspath(__file__))
+    project_root = os.path.dirname(os.path.dirname(current_script_path))
+    csv_path = os.path.join(project_root, "data", "medical_insurance.csv")
     df = pd.read_csv(csv_path)
     df.columns = [c.lower().replace(" ", "_") for c in df.columns]
 
+    table_name = "raw_medical_insurance"
+    schema_name = "public"
     engine = create_engine(DB_CONNECTION_STRING)
-    with engine.connect() as conn:
-        conn.execute(text("TRUNCATE TABLE public.raw_medical_insurance"))
-        conn.commit()
-        
-    df.to_sql(
-        name="raw_medical_insurance",
-        con=engine,
-        schema="public",
-        if_exists="append",
-        index=False,
-        chunksize=1000
-    )
+    inspector = inspect(engine)
+    if inspector.has_table(table_name, schema=schema_name):
+        print(f"Found table {table_name} -> Cleaning (Truncate)...")
+        with engine.connect() as conn:
+            conn.execute(text(f"TRUNCATE TABLE {schema_name}.{table_name}"))
+            conn.commit()
+        write_mode = "append"
+    else:
+        print(f"Not found table {table_name} -> Creating Initial Table...")
+        write_mode = "replace"
 
+    df.to_sql(
+        name=table_name,
+        con=engine,
+        schema=schema_name,
+        if_exists=write_mode,
+        index=False,
+        chunksize=1000,
+    )
+    print("Upload Complete!")
     return df.head()
