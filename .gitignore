@@ -4,7 +4,6 @@ env/
 profiles.yml
 secrets.json
 .user.yml
-set_env.ps1
 
 # Python
 __pycache__/
